@@ -15,7 +15,7 @@ Our project is a rectifier that takes in an AC input (either 120 VAC from the wa
 
 ### 2. Motivation
 
-Portable DC power sources have a multitude of uses; whether it is intrumentation, charging batteries, or most portable/consumer electronics, DC power is needed. As Electrical Engineers, we routinely use DC Power Supplies for our work. However, the most widely available and portable power sources tend to be AC power sources (that is what comes out of the wall after all). Furthermore, since we are aiming to drive a DC motor (where we can vary the output voltage to drive the motor faster), we are essentially creating a mini DC motor controller as well, which has myriad applications.
+Portable DC power sources have a multitude of uses; whether it is instrumentation, charging batteries, or most portable/consumer electronics, DC power is needed. As Electrical Engineers, we routinely use DC Power Supplies for our work. However, the most widely available and portable power sources tend to be AC power sources (that is what comes out of the wall after all). Furthermore, since we are aiming to drive a DC motor (where we can vary the output voltage to drive the motor faster), we are essentially creating a mini DC motor controller as well, which has myriad applications.
 
 ### 3. Goals
 
@@ -62,24 +62,36 @@ Safety components such as fuses and diodes will be incorporated to protect both 
 
 ### 6. MVP Demo
 
-What do you expect to accomplish by the first milestone?
+A silicon controlled rectifier circuit with at least a constant firing angle. Ideally a voltage output measurement would be included as well.
+
+The demonstration will consist of the following: attaching an AC power source to the device either from a transformer or AWG and measuring the output with the device and an osciliscope in order to examine ripple and accuracy to most likely a 1/2 voltage scaling. A constant firing angle alpha will be employed at this point which will yield a preset output DC voltage. The goal of this demo is to prove that the SCR devices are working, do not short unintentionally and can handle a DC load. 
 
 ### 7. Final Demo
 
-What do you expect to achieve by the final demonstration or after milestone 1?
+A fully closed loop PID controlled SCR voltage device that takes a target DC voltage input in and outputs such voltage.
+
+This will be conducted by connecting the device to a DC E-load, providing it again an arbitrary input waveforem and now setting a DC output voltage with a potentiometer on the housing. The DC output voltage will be readout on an LCD as well as the target voltage and characteristics of the input waveforem to be compared with what is actually being generated and taken in by the device.
 
 ### 8. Methodology
 
-What is your approach to the problem?
+Certainly! Here's a more detailed paragraph based on the outlined methodology:
+
+The methodology for the project begins with a thorough analysis of requirements, encompassing both functional aspects such as input/output specifications, performance metrics, safety considerations, and non-functional aspects including user interface requirements. Following this, careful selection and acquisition of components are carried out, including SCRs, high-precision voltage and current sensors, the ATMEGA328PB Xplained Board, and peripherals like an LCD screen and potentiometer. Circuit assembly involves meticulous integration of these components, ensuring compatibility and functionality. Concurrently, software development focuses on coding the PID control algorithm for the ATMega 328 PB microcontroller, along with interfaces for sensor data acquisition and real-time adjustments to firing angles. Furthermore, simulation tools like MatLab will allow us to hone in our PID control specifically for power applications. Robust error handling mechanisms and user-friendly features on the LCD interface are implemented to enhance usability and reliability. Rigorous testing and debugging phases follow, involving individual component testing and integration testing to verify functionality and address any issues. System integration and calibration involve combining software and hardware elements to create a fully functional rectifier system with PID control, fine-tuning parameters such as PID coefficients, voltage setpoints, and firing angles for optimal performance. Verification and validation processes evaluate system performance against predefined metrics, including load testing and dynamic input variations. The culmination of the methodology is comprehensive documentation of the project process, including system architecture diagrams, circuit schematics, software code, calibration procedures, and detailed test results, presented in a final project report.
 
 ### 9. Components
 
-What major components do you need and why?
+Primary components:
+* ATMEGA328PB Xplained Board
+* 4 High Power Silicon Controlled Rectifier Devices
+* Power inductor
+* High voltage capacitor
+* Voltage sensing equipment
+* LCD screen
+* Potentiometer
 
 ### 10. Evaluation
 
-What is your metric for evaluating how well your product/solution solves the problem? Think critically on this section. Having a boolean metric such as “it works” is not very useful. This is akin to making a speaker and if it emits sound, albeit however terrible and ear wrenching, declare this a success.
-It is recommended that your project be something that you can take pride in. Oftentimes in interviews, you will be asked to talk about projects you have worked on.
+There are two primary metrics by which we can evaluate our project: a boolean one, does it take in an arbitrary AC waveform within our bounds in and output a rectified regulated voltage or current based on the input given by the user. The more quantifiable way to approach this would be how fast can the system output the desired quality within some time frame. The boundaries and thresholds for this qualification will be something better understood in development, but an example would be, "the device can regulate to +/- 0.05V from target within 5 seconds" or something similar.
 
 ### 11. Timeline
 
@@ -87,9 +99,10 @@ This section is to help guide your progress over the next few weeks. Feel free t
 
 | **Week**            | **Task** | **Assigned To**    |
 |----------           |--------- |------------------- |
-| Week 1: 3/24 - 3/31 |          |                    |
-| Week 2: 4/1 - 4/7   |          |                    |
-| Week 3: 4/8 - 4/14  |          |                    |
+| Week 1: 3/24 - 3/31 | Select and order SCRs, current and voltage sensing methods and screen. |                    |
+| Week 2: 4/1 - 4/7   | Assemble circuitry and write feedback code.|                    |
+| Week 3: 4/8 - 4/14  |Develop PID control and firing angle response. |                    |
+| | Put together input hardware and housing for the device.
 | Week 4: 4/15 - 4/21 |          |                    |
 | Week 5: 4/22 - 4/26 |          |                    |
 
