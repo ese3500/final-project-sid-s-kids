@@ -11,33 +11,54 @@
 
 ### 1. Abstract
 
-In a few sentences, describe your final project. This abstract will be used as the description in the evaluation survey forms.
-
-Our idea is to create a rectifier that will take in an AC input (likely stepped down from the 120 VAC from the wall for this purpose) and use a controlled 4 SCR rectifier to perform rectification and produce a DC output. The ATMega will act as the controller for the SCRs and will perform the firing angle calculations, use a PID controller to vary the firing angle as needed based on measured input and output voltages, and generate the actual firing angle pulse.
+Our project is a rectifier that takes in an AC input (either 120 VAC from the wall stepped down to 12 VAC or a waveform generator) and use a controlled 4 silicon-controlled rectifier (SCR) rectifier to perform rectification and produce a DC output. The ATMega acts as the controller for the SCRs and performs the firing angle calculations using a PID controller to vary the firing angle as needed based on measured input and output voltages, and generate the actual firing angle pulse. The load we will drive using this controller is a DC motor.
 
 ### 2. Motivation
 
-What is the problem that you are trying to solve? Why is this project interesting? What is the intended purpose?
-
-Portable DC power sources have a multitude of uses; whether it is intrumentation, charging batteries, or most portable/consumer electronics, DC power is needed. As Electrical Engineers, we routinely use DC Power Supplies for our work. However, the most widely available and portable power sources tend to be AC power sources (that is what comes out of the wall after all).
+Portable DC power sources have a multitude of uses; whether it is intrumentation, charging batteries, or most portable/consumer electronics, DC power is needed. As Electrical Engineers, we routinely use DC Power Supplies for our work. However, the most widely available and portable power sources tend to be AC power sources (that is what comes out of the wall after all). Furthermore, since we are aiming to drive a DC motor (where we can vary the output voltage to drive the motor faster), we are essentially creating a mini DC motor controller as well, which has myriad applications.
 
 ### 3. Goals
 
-These are to help guide and direct your progress.
+- Create a rectifier circuit using SCRs on the prototype (this can be tested using the waveform generators in the lab)
+- Design the PID controller for this
+- Connect the voltage measurement sensors to the rectifier
+- Implement the PID controller in software
+- Implement the firing angle code on the ATMega
+- Combine the firing angle code with the PID control loop
 
 ### 4. Software Requirements Specification (SRS)
 
-Formulate key software requirements here.
+The software for this project is designed to run on an ATMega 328 PB microcontroller, which acts as the controller for the rectifier. The primary function of the software is to implement a PID control algorithm that regulates the firing angle of SCRs to convert alternating current (AC) input into direct current (DC) output. The software will continuously monitor the input and output voltage levels through ADCs or differential voltage sensors and adjust the firing angle of the SCRs accordingly to maintain a stable DC output voltage, suitable for applications such as driving DC motors.
 
-Since we are running PID on discrete data that is running at relatively high frequencies, we need to be able to compute the PID equation very quickly (which should be fine) and solve for the firing angle quickly (which may require a lookup table of inverse cosine). Once a firing angle has been calculated, we will need to generate a pulse at that firing angle (which will require us to know the input frequency). This firing angle will change cycle to cycle based on the controller during transition regions, so we will need to be able to time and modulate the OCRA values well to control the SCRs properly. The output voltage will be measured and used as an input to the PID controller.
+The software is required to perform high-frequency calculations to ensure real-time responses to fluctuations in input voltage and load conditions. It should efficiently compute the PID equation, enabling the microcontroller to solve for the firing angle quickly, potentially using lookup tables for inverse trigonometric functions to expedite calculations. It may need to compute some complex numbers to apply the transfer function of the output filter, though we could get around this by working with the PID controller in the laplace domain and then doing all conversions at the end. The software must generate precise firing pulses, taking into account the input AC frequency, to control the SCRs accurately. This control logic must allow for dynamic adjustment of the firing angles to cater to different operating conditions, such as changes in the load or input voltage.
+
+Additionally, the software on the backend should be designed to provide mechanisms for setting initial PID parameters and allow for their adjustment/tuning. The software must ensure robust error handling to cope with potential hardware faults or unexpected input signals.
 
 ### 5. Hardware Requirements Specification (HRS)
 
-Formulate key hardware requirements here.
+This project requires two high-precision differential voltage measurement sensors or integrated circuits (ICs), one placed at the input and the other at the output. These sensors must be capable of:
 
-The sensors we would need would be two differential voltage measurement sensors/ICs (one at the input and one at the input). At the input, we would measure the amplitude and frequency of the AC voltage (if frequency is too difficult we can assume 60 Hz, but if we can measure amplitude we should be able to do frequency). Then, these measurements (which would either come back to the ATMega through the ADC or through a communications protocol), would be used. For the PID loop, the target is the user's desired output, and the parameter to measure in order to calculate error is the measured output voltage. We have a transfer function that describes how the input voltage, firing angle, and output voltage are related, so we can create our PID equation.
+- Measuring the amplitude of the AC voltage at the input to determine the real-time voltage level, which is crucial for the PID loop to calculate the necessary adjustments for the firing angles of the SCRs.
+- Measuring the frequency of the AC voltage. While the system may assume a standard frequency of 60 Hz, the capability to measure the frequency provides flexibility for operation in various power environments and enhances the adaptability of the system.
+- Providing accurate DC voltage measurement at the output to facilitate the PID controller in determining the error between the desired and the actual output voltages.
+- The measurements obtained from these sensors should be communicated back to the ATMega microcontroller, either through analog-to-digital conversion (ADC) inputs or a digital communication protocol.
 
-The output will be an LCD display that shows the input and output voltage characteristics, and allows the user to change the desired output voltage (we give a range given the input voltage and firing angle possibilities).
+The microcontroller, an ATMega 328 PB should be able to:
+
+- Executing the PID control loop algorithm, requiring rapid computation to adjust the firing angles of the SCRs based on the measured input and output voltages.
+- Interfacing with the voltage measurement sensors, reading and processing the sensor data to make real-time decisions.
+- Managing user inputs and displaying relevant system parameters on an output interface.
+- Sending gate pulses in a timely and rapid manner
+
+The hardware will use an LCD display panel to show critical system parameters, such as:
+
+- Input voltage amplitude and frequency.
+- Current output voltage.
+- Desired output voltage set by the user.
+
+The display should allow users to interactively set the desired output voltage within a predetermined range that considers the limitations imposed by the input voltage and the firing angle possibilities, possibly using a potentiometer to set the desired output voltage.
+
+Safety components such as fuses and diodes will be incorporated to protect both the hardware and the user from electrical hazards. These components are crucial, especially considering the potential high-voltage nature of the system's operation (at least from an embedded systems perspective).
 
 ### 6. MVP Demo
 
