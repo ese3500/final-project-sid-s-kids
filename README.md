@@ -99,12 +99,13 @@ This section is to help guide your progress over the next few weeks. Feel free t
 
 | **Week**            | **Task** | **Assigned To**    |
 |----------           |--------- |------------------- |
-| Week 1: 3/24 - 3/31 | Select and order SCRs, current and voltage sensing methods and screen. |                    |
-| Week 2: 4/1 - 4/7   | Assemble circuitry and write feedback code.|                    |
-| Week 3: 4/8 - 4/14  |Develop PID control and firing angle response. |                    |
-| | Put together input hardware and housing for the device.
-| Week 4: 4/15 - 4/21 |          |                    |
-| Week 5: 4/22 - 4/26 |          |                    |
+| Week 1: 3/24 - 3/31 | Select and order SCRs, protection diodes, voltage sensing methods and screen. |Owen
+||Begin simulation and determine LC values|          Rohan            |
+| Week 2: 4/1 - 4/7   | Write gate pulse, frequency analysis and LCD code.|     Owen
+|| Simulate PID control and tune for inductor and capacitor amd write code for it.              | Rohan
+| Week 3: 4/8 - 4/14  | Assemble circuitry and begin integration.|           Both         |
+| Week 4: 4/15 - 4/21 |  Debugging.  Housing for the device.       |          Both          |
+| Week 5: 4/22 - 4/26 |   Debugging. Polish and final testing       |         Both           |
 
 ### 12. Proposal Presentation
 
