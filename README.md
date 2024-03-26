@@ -49,6 +49,7 @@ The microcontroller, an ATMega 328 PB should be able to:
 - Interfacing with the voltage measurement sensors, reading and processing the sensor data to make real-time decisions.
 - Managing user inputs and displaying relevant system parameters on an output interface.
 - Sending gate pulses in a timely and rapid manner
+- All these functions will likely require 3 timers (which the ATmega has)
 
 The hardware will use an LCD display panel to show critical system parameters, such as:
 
@@ -64,7 +65,9 @@ Safety components such as fuses and diodes will be incorporated to protect both 
 
 A silicon controlled rectifier circuit with at least a constant firing angle. Ideally a voltage output measurement would be included as well.
 
-The demonstration will consist of the following: attaching an AC power source to the device either from a transformer or AWG and measuring the output with the device and an osciliscope in order to examine ripple and accuracy to most likely a 1/2 voltage scaling. A constant firing angle alpha will be employed at this point which will yield a preset output DC voltage. The goal of this demo is to prove that the SCR devices are working, do not short unintentionally and can handle a DC load. 
+The demonstration will consist of the following: attaching an AC power source to the device either from a transformer or waveform generator and measuring the output with the device and an osciliscope in order to examine ripple and accuracy to most likely a 1/2 voltage scaling. A constant firing angle alpha will be employed at this point which will yield a preset output DC voltage. The goal of this demo is to prove that the SCR devices are working, do not short unintentionally and can handle a DC load.
+
+The basis of the PID controller should be evident in the code, even if it isn't connected to all the sensors.
 
 ### 7. Final Demo
 
@@ -72,11 +75,19 @@ A fully closed loop PID controlled SCR voltage device that takes a target DC vol
 
 This will be conducted by connecting the device to a DC E-load, providing it again an arbitrary input waveforem and now setting a DC output voltage with a potentiometer on the housing. The DC output voltage will be readout on an LCD as well as the target voltage and characteristics of the input waveforem to be compared with what is actually being generated and taken in by the device.
 
+If we are able to get this part fully working, we will attempt to drive a DC motor using our controller.
+
 ### 8. Methodology
 
-Certainly! Here's a more detailed paragraph based on the outlined methodology:
+First off, we will figure out what we need, like inputs/outputs, how fast and accurate it needs to be, making sure it's safe, and deciding how we want it to look and feel for users. Then, we will work to acquire parts like SCRs, accurate sensors for voltage and current, the ATMEGA328PB Xplained Board, and some other components like an LCD screen and a potentiometer. Then, we will wire the circuit and test the rectifier circuit without the ATMega.
 
-The methodology for the project begins with a thorough analysis of requirements, encompassing both functional aspects such as input/output specifications, performance metrics, safety considerations, and non-functional aspects including user interface requirements. Following this, careful selection and acquisition of components are carried out, including SCRs, high-precision voltage and current sensors, the ATMEGA328PB Xplained Board, and peripherals like an LCD screen and potentiometer. Circuit assembly involves meticulous integration of these components, ensuring compatibility and functionality. Concurrently, software development focuses on coding the PID control algorithm for the ATMega 328 PB microcontroller, along with interfaces for sensor data acquisition and real-time adjustments to firing angles. Furthermore, simulation tools like MatLab will allow us to hone in our PID control specifically for power applications. Robust error handling mechanisms and user-friendly features on the LCD interface are implemented to enhance usability and reliability. Rigorous testing and debugging phases follow, involving individual component testing and integration testing to verify functionality and address any issues. System integration and calibration involve combining software and hardware elements to create a fully functional rectifier system with PID control, fine-tuning parameters such as PID coefficients, voltage setpoints, and firing angles for optimal performance. Verification and validation processes evaluate system performance against predefined metrics, including load testing and dynamic input variations. The culmination of the methodology is comprehensive documentation of the project process, including system architecture diagrams, circuit schematics, software code, calibration procedures, and detailed test results, presented in a final project report.
+At the same time, we will simultaneously develop the PID control algorithm for the ATMega 328 PB microcontroller. We will be setting up how we'll retrieve data from sensors and tune the controller to keep our firing angles on point. We will use tools like MatLab to test and refine our PID control.
+
+We're also planning to make the design user-friendly and reliable, with clear error messages and nice features on the LCD so everyone can use it. After all that, it's testing time! We'll check each part by itself and then see how they all play together, fixing any problems along the way.
+
+Next up, we'll bring all the software and hardware together, tuning all the settings like PID coefficients, where we want our voltage to be, and the firing angles to get everything running. The last big step is making sure everything we did meets the goals we set, with tests in different conditions to see how it holds up.
+
+And we can't forget about wrapping everything up with some solid documentation, including diagrams of how the system's put together, all the circuit details, the code, how we got it all calibrated, and every test we ran.
 
 ### 9. Components
 
@@ -88,14 +99,13 @@ Primary components:
 * Voltage sensing equipment
 * LCD screen
 * Potentiometer
+* Diodes for input protection
 
 ### 10. Evaluation
 
-There are two primary metrics by which we can evaluate our project: a boolean one, does it take in an arbitrary AC waveform within our bounds in and output a rectified regulated voltage or current based on the input given by the user. The more quantifiable way to approach this would be how fast can the system output the desired quality within some time frame. The boundaries and thresholds for this qualification will be something better understood in development, but an example would be, "the device can regulate to +/- 0.05V from target within 5 seconds" or something similar.
+There are two primary metrics by which we can evaluate our project: a boolean one, does it take in an arbitrary AC waveform within our bounds in and output a rectified regulated voltage or current based on the input given by the user. The more quantifiable way to approach this would be how fast can the system output the desired quality within some time frame. The boundaries and thresholds for this qualification will be something better understood in development, but an example would be, "the device can regulate to +/- 0.05V from target within 5 seconds" or something similar. A target, for now, before any simulation/development has begun, will be for the rectifier to be able to regulate to within 0.25V within 5 seconds.
 
 ### 11. Timeline
-
-This section is to help guide your progress over the next few weeks. Feel free to adjust and edit the table below to something that would be useful to you. Really think about what you want to accomplish by the first milestone.
 
 | **Week**            | **Task** | **Assigned To**    |
 |----------           |--------- |------------------- |
