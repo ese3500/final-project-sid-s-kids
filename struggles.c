@@ -22,7 +22,7 @@
 #define PI 3.14159265358979323846
 
 volatile int frequency = 60;
-volatile float firing_angle_rad = PI; // Default firing angle of 0 radians
+volatile float firing_angle_rad = PI;
 volatile int count = 0;
 
 volatile int period_measurement_1 = 0;
