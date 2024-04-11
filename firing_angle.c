@@ -7,7 +7,7 @@
  * Fires a 10ms pulse a firing angle after a 0 is detected on an input. This will be updated to use the ADC or i2c when we are doing voltage measurements in the future. 
  */ 
 
-#include <xc.h>
+// #include <xc.h>
 
 
 #define F_CPU 16000000UL
