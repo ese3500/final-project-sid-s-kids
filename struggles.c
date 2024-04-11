@@ -63,11 +63,6 @@ void initialize_timers() {
 	sei();
 }
 
-// ISR(INT0_vect) {
-// 	zero_detected = 1; // Set flag to indicate zero detected
-// 	time_elapsed = 0; // Reset time elapsed
-// }
-
 ISR(TIMER1_OVF_vect) {
 	period_overflow++;
 }
@@ -81,10 +76,13 @@ ISR(TIMER1_CAPT_vect) {
 		char buffer[50];
 		// Correctly account for overflows
 		frequency = (int)((0xFFFF/1024)/period_difference);
+
+		//uint32_t totalPeriod = (period_measurement_2 - period_measurement_1 + (0xFFFF * period_overflow)) * 256 / (F_CPU / 1000000);
+		//frequency = 1000000 / totalPeriod; // Convert period in microseconds to frequency in Hz
 		
 		//frequency = (int) ((0xFFFF/8) / (2*(period_measurement_2 - period_measurement_1 + (0xFFFF)*period_overflow)));
 		sprintf(buffer, "%i, %i, %i, %i \n", period_measurement_2, period_measurement_1, period_overflow, frequency);
-		UART_putstring(buffer);
+		UART_putstring(buffer);1
 		period_overflow = 0;
 	}
 	TCCR1B ^= (1<<ICES1);
@@ -116,10 +114,6 @@ int main() {
 
 	// Configure PD3 as output
 	DDRD |= (1 << DDD3);
-
-	// Enable external interrupt INT0 on falling edge
-// 	EICRA |= (1 << ISC01);
-// 	EIMSK |= (1 << INT0);
 
 	// Initialize timers
 	initialize_timers();
