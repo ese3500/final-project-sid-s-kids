@@ -28,6 +28,8 @@ volatile int count = 0;
 volatile uint8_t zero_detected = 0;
 volatile uint16_t time_elapsed = 0;
 
+volatile bool outputFlag = 0;
+
 // Initialize ADC
 void initADC() {
 	ADMUX = (1 << REFS0); // Use AVcc as the reference
@@ -71,7 +73,7 @@ ISR(TIMER3_OVF_vect) {
 }
 
 ISR(TIMER1_COMPA_vect) {
-	if (zero_detected) {
+	if (zero_detected && !outputFlag) {
 		time_elapsed++; // Increment time elapsed
  		if (zero_detected && time_elapsed >= ((960*8/averageFrequency * firing_angle_rad/(2*PI)))) { // 960 is a neccessary change from 1000 due to delays, 8 is prescaler
 			// Perform the action (pull PD3 high)
@@ -84,6 +86,23 @@ ISR(TIMER1_COMPA_vect) {
 		// Reset flags and time elapsed
 		zero_detected = 0;
 		time_elapsed = 0;
+		outputFlag = 1;
+		}
+	}
+	else if (zero_detected && outputFlag) {
+		time_elapsed++; // Increment time elapsed
+		if (zero_detected && time_elapsed >= ((960*8/averageFrequency * firing_angle_rad/(2*PI)))) { // 960 is a neccessary change from 1000 due to delays, 8 is prescaler
+			// Perform the action (pull PD2 high)
+			PORTD |= (1 << PORTD2);
+			
+			// Reset the pin to low after a delay
+			_delay_ms(5);
+			PORTD &= ~(1 << PORTD2);
+			
+			// Reset flags and time elapsed
+			zero_detected = 0;
+			time_elapsed = 0;
+			outputFlag = 0;
 		}
 	}
 }
@@ -118,17 +137,19 @@ int main(void) {
 	uint32_t currentTicks;
 	
 	DDRD |= (1 << DDD3);
+	DDRD |= (1 << DDD2);
 
 	while (1) {
 		adcValue = readADC0();
 		bool currentReadingAboveMid = (adcValue >= MID_POINT);
-		if (!lastReadingAboveMid && currentReadingAboveMid) {
+		bool currentReadingBelowMid = (adcValue < MID_POINT);
+		if ((!lastReadingAboveMid && currentReadingAboveMid) || (lastReadingAboveMid && currentReadingBelowMid)) {
 			// Zero crossing detected
 			currentTicks = totalTicks + TCNT3;
 			if (currentTicks >= lastCapture) {
 				zero_detected = 1;
 				uint32_t elapsedTicks = currentTicks - lastCapture;
-				setFrequency((float)(F_CPU / 8.0f) / elapsedTicks); // frequency
+				setFrequency((float)(F_CPU / 8.0f) / (2*elapsedTicks)); // frequency
 				lastCapture = currentTicks;
 				char buffer[20];
 				sprintf(buffer, "%u \n", (int) averageFrequency);
