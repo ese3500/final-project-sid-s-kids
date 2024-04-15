@@ -30,17 +30,15 @@ volatile uint16_t time_elapsed = 0;
 
 volatile bool outputFlag = 0;
 
-// Initialize ADC
-void initADC() {
-	ADMUX = (1 << REFS0); // Use AVcc as the reference
-	ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Enable ADC, prescaler = 128
+void ADC_init() {
+	ADMUX = (1 << REFS0);
+	ADCSRA = (1 << ADEN) | (7 << ADPS0);
 }
 
-// Read ADC value from ADC0
-uint16_t readADC0() {
-	ADMUX = (ADMUX & 0xF0) | 0; // ADC0
-	ADCSRA |= (1 << ADSC); // Start conversion
-	while (ADCSRA & (1 << ADSC)); // Wait for conversion to complete
+uint16_t read_ADC(uint8_t channel) {
+	ADMUX = (ADMUX & 0xF8) | (channel & 0x07);
+	ADCSRA |= (1 << ADSC);
+	while (ADCSRA & (1 << ADSC));
 	return ADC;
 }
 
@@ -167,7 +165,7 @@ void PID_Update(PIDController* pid, float actualValue, float vin) {
 }
 
 int main(void) {
-	initADC();
+	ADC_init();
 	initTimer3();
 	initialize_timers();
 	UART_init(BAUD_PRESCALER);
@@ -184,7 +182,7 @@ int main(void) {
 	PID_Init(&pid, 1.0f, 1.0f, 1.0f, 2.0f);
 
 	while (1) {
-		adcValue = readADC0();
+		adcValue = read_ADC(0);
 		bool currentReadingAboveMid = (adcValue >= MID_POINT);
 		bool currentReadingBelowMid = (adcValue < MID_POINT);
 		if ((!lastReadingAboveMid && currentReadingAboveMid) || (lastReadingAboveMid && currentReadingBelowMid)) {
