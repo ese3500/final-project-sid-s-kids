@@ -36,12 +36,7 @@ Additionally, the software on the backend should be designed to provide mechanis
 
 ### 5. Hardware Requirements Specification (HRS)
 
-This project requires two high-precision differential voltage measurement sensors or integrated circuits (ICs), one placed at the input and the other at the output. These sensors must be capable of:
-
-- Measuring the amplitude of the AC voltage at the input to determine the real-time voltage level, which is crucial for the PID loop to calculate the necessary adjustments for the firing angles of the SCRs.
-- Measuring the frequency of the AC voltage. While the system may assume a standard frequency of 60 Hz, the capability to measure the frequency provides flexibility for operation in various power environments and enhances the adaptability of the system.
-- Providing accurate DC voltage measurement at the output to facilitate the PID controller in determining the error between the desired and the actual output voltages.
-- The measurements obtained from these sensors should be communicated back to the ATMega microcontroller, either through analog-to-digital conversion (ADC) inputs or a digital communication protocol.
+This project requires a way to measure input voltages, in our case using an op-amp circuit. This circuit will be capable of shifting and scaling the input voltages into the ADC range, allowing us to measure the amplitude and frequency of the AC input voltage, and the amplitude of the output voltage.
 
 The microcontroller, an ATMega 328 PB should be able to:
 
@@ -68,6 +63,8 @@ A silicon controlled rectifier circuit with at least a constant firing angle. Id
 The demonstration will consist of the following: attaching an AC power source to the device either from a transformer or waveform generator and measuring the output with the device and an osciliscope in order to examine ripple and accuracy to most likely a 1/2 voltage scaling. A constant firing angle alpha will be employed at this point which will yield a preset output DC voltage. The goal of this demo is to prove that the SCR devices are working, do not short unintentionally and can handle a DC load.
 
 The basis of the PID controller should be evident in the code, even if it isn't connected to all the sensors.
+
+MVP Slides: <https://docs.google.com/presentation/d/1lvPgcVklSQcYiyNu-Z0bmYHBMlA3lIVZDFER-7pJIpA/edit?usp=sharing>
 
 ### 7. Final Demo
 
@@ -96,7 +93,7 @@ Primary components:
 * 4 High Power Silicon Controlled Rectifier Devices
 * Power inductor
 * High voltage capacitor
-* Voltage sensing equipment
+* Voltage sensing equipment (now, it is 2 op amp circuits)
 * LCD screen
 * Potentiometer
 * Diodes for input protection
