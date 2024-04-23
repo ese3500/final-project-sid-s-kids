@@ -4,7 +4,7 @@
     * Team Name: Sid's Kids
     * Team Members: Rohan Panday and Owen Ledger
     * Github Repository URL: <https://github.com/ese3500/final-project-sid-s-kids>
-    * Github Pages Website URL: [for final submission]
+    * Github Pages Website URL: https://ese3500.github.io/final-project-sid-s-kids/
     * Description of hardware: (embedded hardware, laptop, etc): MacOS Sonoma, Macbook Pro with M1 Chip
 
 ## Final Project Proposal
