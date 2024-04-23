@@ -1,11 +1,100 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/2TmiRqwI)
-# final-project-skeleton
+# Rohan and Owen: SCR-Based Rectifier
 
     * Team Name: Sid's Kids
     * Team Members: Rohan Panday and Owen Ledger
     * Github Repository URL: <https://github.com/ese3500/final-project-sid-s-kids>
     * Github Pages Website URL: https://ese3500.github.io/final-project-sid-s-kids/
     * Description of hardware: (embedded hardware, laptop, etc): MacOS Sonoma, Macbook Pro with M1 Chip
+
+
+## Final Project Report
+
+Don't forget to make the GitHub pages public website!
+If you’ve never made a Github pages website before, you can follow this webpage (though, substitute your final project repository for the Github username one in the quickstart guide):  <https://docs.github.com/en/pages/quickstart>
+
+### 1. Video
+
+[Insert final project video here]
+
+### 2. Images
+
+[Insert final project images here]
+
+### 3. Results
+
+What were your results? Namely, what was the final solution/design to your problem?
+
+#### 3.1 Software Requirements Specification (SRS) Results
+
+Based on your quantified system performance, comment on how you achieved or fell short of your expected software requirements. You should be quantifying this, using measurement tools to collect data.
+
+#### 3.1.1 Overview
+
+The software is an integral part of a rectifier system and manages the conversion process from AC to DC by controlling the firing angle of SCRs using a PID algorithm on an ATMega 328 PB microcontroller.
+
+#### 3.1.2 Users
+
+The software is designed for electrical engineers and technicians responsible for maintaining stable DC power supplies for applications such as DC motors.
+
+#### 3.1.3 Definitions, Abbreviations
+
+- **SCR**: Silicon Controlled Rectifier
+- **PID**: Proportional-Integral-Derivative
+- **ADC**: Analog to Digital Converter
+- **DC**: Direct Current
+- **AC**: Alternating Current
+
+#### 3.1.4 Functionality
+
+- **SRS 01**: The software shall implement a PID control algorithm to regulate the firing angle of SCRs.
+- **SRS 02**: The software shall continuously monitor input and output voltage levels through ADCs.
+- **SRS 03**: The software shall provide real-time response to voltage fluctuations and load conditions.
+- **SRS 04**: The microcontroller shall compute the PID equation efficiently, possibly utilizing lookup tables for inverse trigonometric functions.
+- **SRS 05**: The software shall generate precise firing pulses synchronized with the AC frequency.
+- **SRS 06**: The software should allow dynamic adjustment of firing angles for varying operating conditions.
+- **SRS 07**: The software must provide a mechanism for setting and tuning initial PID parameters.
+- **SRS 08**: The software must include robust error handling capabilities.
+
+#### 3.2 Hardware Requirements Specification (HRS) Results
+
+Based on your quantified system performance, comment on how you achieved or fell short of your expected hardware requirements. You should be quantifying this, using measurement tools to collect data.
+
+#### 3.2.1 Overview
+
+The hardware facilitates voltage measurement and PID control loop execution for a rectifier system, utilizing an ATMega 328 PB microcontroller as the core component.
+
+#### 3.2.2 Definitions, Abbreviations
+
+- **PID**: Proportional-Integral-Derivative
+- **SCR**: Silicon Controlled Rectifier
+- **ADC**: Analog to Digital Converter
+- **LCD**: Liquid Crystal Display
+
+#### 3.2.3 Functionality
+
+- **HRS 01**: An op-amp circuit shall be used to scale AC input voltages into the ADC's range.
+- **HRS 02**: The ATMega 328 PB microcontroller shall execute the PID control loop algorithm for adjusting SCR firing angles.
+- **HRS 03**: The microcontroller shall interface with voltage measurement sensors for real-time decision-making.
+- **HRS 04**: The microcontroller shall manage user inputs and display system parameters on an LCD panel.
+- **HRS 05**: The hardware shall send gate pulses to SCRs in a timely and rapid manner.
+- **HRS 06**: The system shall use an LCD display panel for showing system parameters and user interaction.
+- **HRS 07**: Safety components such as fuses and diodes shall be incorporated to protect against electrical hazards.
+
+### 4. Conclusion
+
+Reflect on your project. Some questions to consider: What did you learn from it? What went well? What accomplishments are you proud of? What did you learn/gain from this experience? Did you have to change your approach? What could have been done differently? Did you encounter obstacles that you didn’t anticipate? What could be a next step for this project?
+
+## References
+
+Fill in your references here as you work on your proposal and final submission. Describe any libraries used here.
+
+-----
+
+[1] L. Gu, Class Lecture, Topic: "Thyristors” ESE 5800, School of Engineering and Applied Sciences, University of Pennsylvania, Philadelphia, Pennsylvania, Feb., 7, 2024.
+
+[2] J. G. Kassakian, D. J. Perreault, G. C. Verghese, and M. F. Schlecht, Principles of Power Electronics, 2nd ed. Cambridge: Cambridge University Press, 2023.
+
+[3] “Control Tutorials for MATLAB and Simulink - Introduction: PID Controller Design,” ctms.engin.umich.edu. https://ctms.engin.umich.edu/CTMS/index.php?example=Introduction&section=ControlPID
 
 ## Final Project Proposal
 
@@ -117,48 +206,3 @@ There are two primary metrics by which we can evaluate our project: a boolean on
 ### 12. Proposal Presentation
 
 Add your slides to the Final Project Proposal slide deck in the Google Drive.
-
-## Final Project Report
-
-Don't forget to make the GitHub pages public website!
-If you’ve never made a Github pages website before, you can follow this webpage (though, substitute your final project repository for the Github username one in the quickstart guide):  <https://docs.github.com/en/pages/quickstart>
-
-### 1. Video
-
-[Insert final project video here]
-
-### 2. Images
-
-[Insert final project images here]
-
-### 3. Results
-
-What were your results? Namely, what was the final solution/design to your problem?
-
-#### 3.1 Software Requirements Specification (SRS) Results
-
-Based on your quantified system performance, comment on how you achieved or fell short of your expected software requirements. You should be quantifying this, using measurement tools to collect data.
-
-#### 3.2 Hardware Requirements Specification (HRS) Results
-
-Based on your quantified system performance, comment on how you achieved or fell short of your expected hardware requirements. You should be quantifying this, using measurement tools to collect data.
-
-### 4. Conclusion
-
-Reflect on your project. Some questions to consider: What did you learn from it? What went well? What accomplishments are you proud of? What did you learn/gain from this experience? Did you have to change your approach? What could have been done differently? Did you encounter obstacles that you didn’t anticipate? What could be a next step for this project?
-
-## References
-
-Fill in your references here as you work on your proposal and final submission. Describe any libraries used here.
-
-## Github Repo Submission Resources
-
-You can remove this section if you don't need these references.
-
-* [ESE5160 Example Repo Submission](https://github.com/ese5160/example-repository-submission)
-* [Markdown Guide: Basic Syntax](https://www.markdownguide.org/basic-syntax/)
-* [Adobe free video to gif converter](https://www.adobe.com/express/feature/video/convert/video-to-gif)
-* [Curated list of example READMEs](https://github.com/matiassingers/awesome-readme)
-* [VS Code](https://code.visualstudio.com/) is heavily recommended to develop code and handle Git commits
-  * Code formatting and extension recommendation files come with this repository.
-  * Ctrl+Shift+V will render the README.md (maybe not the images though)
