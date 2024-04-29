@@ -43,6 +43,9 @@ The software is designed for electrical engineers and technicians responsible fo
 - **ADC**: Analog to Digital Converter
 - **DC**: Direct Current
 - **AC**: Alternating Current
+- **Cuk Converter**: A DC to DC converter that can both buck and boost voltage
+- **Buck**: To lower DC voltage, normally with a switching converter
+- **Boost**: To increase DC voltage, normally with a switching converter
 
 #### 3.1.4 Functionality
 
@@ -95,6 +98,8 @@ Fill in your references here as you work on your proposal and final submission. 
 [2] J. G. Kassakian, D. J. Perreault, G. C. Verghese, and M. F. Schlecht, Principles of Power Electronics, 2nd ed. Cambridge: Cambridge University Press, 2023.
 
 [3] “Control Tutorials for MATLAB and Simulink - Introduction: PID Controller Design,” ctms.engin.umich.edu. https://ctms.engin.umich.edu/CTMS/index.php?example=Introduction&section=ControlPID
+
+[4] L. Gu, Class Lecture, Topic: "Switching Converters” ESE 5800, School of Engineering and Applied Sciences, University of Pennsylvania, Philadelphia, Pennsylvania, Feb., 7, 2024.
 
 ## Final Project Proposal
 
