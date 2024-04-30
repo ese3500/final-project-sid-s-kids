@@ -51,7 +51,7 @@ Based on your quantified system performance, comment on how you achieved or fell
 
 #### 3.1.1 Overview
 
-The software is an integral part of a rectifier system and manages the conversion process from AC to DC by controlling the firing angle of SCRs using a PID algorithm on an ATMega 328 PB microcontroller.
+The software is an integral part of a buck-boost system and manages the conversion process from 1 DC voltage to another by controlling the duty angle of MOSFET using a PID algorithm on an ATMega 328 PB microcontroller.
 
 #### 3.1.2 Users
 
@@ -59,7 +59,6 @@ The software is designed for electrical engineers and technicians responsible fo
 
 #### 3.1.3 Definitions, Abbreviations
 
-- **SCR**: Silicon Controlled Rectifier
 - **PID**: Proportional-Integral-Derivative
 - **ADC**: Analog to Digital Converter
 - **DC**: Direct Current
@@ -70,14 +69,18 @@ The software is designed for electrical engineers and technicians responsible fo
 
 #### 3.1.4 Functionality
 
-- **SRS 01**: The software shall implement a PID control algorithm to regulate the firing angle of SCRs.
+- **SRS 01**: The software shall implement a PID control algorithm to regulate the duty cycle of the MOSFETs, doing so within a 1% error.
+  - Our code was able to produce the correct duty cycle with a small error. We tested several duty cycles, and we found at most a 0.3% error (at duty cycle 0.50, we got a duty cyle of 0.503).
 - **SRS 02**: The software shall continuously monitor input and output voltage levels through ADCs.
-- **SRS 03**: The software shall provide real-time response to voltage fluctuations and load conditions.
-- **SRS 04**: The microcontroller shall compute the PID equation efficiently, possibly utilizing lookup tables for inverse trigonometric functions.
-- **SRS 05**: The software shall generate precise firing pulses synchronized with the AC frequency.
-- **SRS 06**: The software should allow dynamic adjustment of firing angles for varying operating conditions.
-- **SRS 07**: The software must provide a mechanism for setting and tuning initial PID parameters.
-- **SRS 08**: The software must include robust error handling capabilities.
+  - Both of the ATMega's used monitored the input and output voltages at 125 kHz using the ADCs. The control ATMega used this information for the PID control, and the display one converted the ADC readings to the correct units and displayed them on the LCD screen.
+- **SRS 03**: The software shall provide real-time response to voltage fluctuations and load conditions. Ideally, the time taken to settle after a voltage testing is within 1 second. The system should work on low loads (50 ohms or lower).
+  - Through testing, we found that for a 1 volt change in input, the response time was 0.7 seconds. For the largest conversion range, the time was a bit longer (1.8 seconds). The system was not as load regulated as we wanted, as the smallest load we could use with accurate output voltages was 200 ohms.
+- **SRS 04**: The microcontroller shall compute the PID equation efficiently, minimizing any computations required.
+  - The PID update method has a runtime of O(1), which is as efficient as we could make it (only simple additions, subtractions, and set methods).
+- **SRS 05**: The software should allow dynamic adjustment of duty cycle for varying operating conditions.
+  - The software takes in the input voltage, output voltage, and target from the user, adjusting the duty cycle to match the requirements based on these 3 parameters. Based on the the input and output requirements, we can reach duty cycles from 0.05 to 0.9. Due to the op amp circuit, we can read in input voltages in the range of 0 to 15 volts, read output voltages from 0 to -30 volts, and set targets from 0 to -30 volts. The code takes the scaled values from the ADCs and adjusts them for the PID controller.
+- **SRS 06**: The software must provide a mechanism for setting and tuning initial PID parameters.
+- **SRS 07**: The software must include robust error handling capabilities.
 
 #### 3.2 Hardware Requirements Specification (HRS) Results
 
