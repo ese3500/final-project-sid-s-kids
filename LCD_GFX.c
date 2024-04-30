@@ -61,6 +61,51 @@ void LCD_drawChar(uint8_t x, uint8_t y, uint16_t character, uint16_t fColor, uin
 	}
 }
 
+// void LCD_drawChar(uint8_t x, uint8_t y, uint16_t character, uint16_t fg, uint16_t bg) {
+// 	if (x + 5 > LCD_WIDTH || y + 8 > LCD_HEIGHT) return;  // Boundary check
+// 
+// 	uint16_t row = character - 0x20;  // Determine row of ASCII table starting at space
+// 	LCD_setAddr(x, y, x+5, y+8);  // Set address window for a 5x8 character
+// 
+// 	clear(LCD_PORT, LCD_DC);
+// 	SPI_ControllerTx(ST7735_RAMWR);  // Command to write to RAM
+// 	set(LCD_PORT, LCD_DC);
+// 	clear(LCD_PORT, LCD_TFT_CS);  // Begin SPI transmission
+// 
+// 	for (int i = 0; i < 5; i++) {
+// 		uint8_t pixels = ASCII[row][i];  // Get column data
+// 		for (int j = 0; j < 8; j++) {
+// 			uint16_t pixelColor = (pixels & (1 << j)) ? fg : bg;
+// 			SPI_ControllerTx_16bit(pixelColor);  // Send pixel color
+// 		}
+// 	}
+// 
+// 	set(LCD_PORT, LCD_TFT_CS);  // End SPI transmission
+// }
+
+// void LCD_drawChar(uint8_t x, uint8_t y, uint16_t character, uint16_t fg, uint16_t bg) {
+// 	if (x + 5 > LCD_WIDTH || y + 8 > LCD_HEIGHT) return;  // Boundary check
+// 
+// 	uint16_t row = character - 0x20;  // Determine row of ASCII table starting at space
+// 	LCD_setAddr(x, y, x+4, y+7);  // Set address window for a 5x8 character
+// 
+// 	clear(LCD_PORT, LCD_DC);
+// 	SPI_ControllerTx(ST7735_RAMWR);  // Command to write to RAM
+// 	set(LCD_PORT, LCD_DC);
+// 	clear(LCD_PORT, LCD_TFT_CS);  // Begin SPI transmission
+// 
+// 	for (int col = 0; col < 5; col++) {
+// 		uint8_t pixels = ASCII[row][col];  // Get column data
+// 		for (int bit = 0; bit < 8; bit++) {
+// 			uint16_t pixelColor = (pixels & (1 << bit)) ? fg : bg;
+// 			SPI_ControllerTx_16bit(pixelColor);  // Send pixel color
+// 		}
+// 	}
+// 
+// 	set(LCD_PORT, LCD_TFT_CS);  // End SPI transmission
+// }
+
+
 
 /******************************************************************************
 * LAB 4 TO DO. COMPLETE THE FUNCTIONS BELOW.
@@ -216,19 +261,57 @@ void LCD_setScreen(uint16_t color)
 * @brief		Draw a string starting at the point with foreground and background colors
 * @note
 *****************************************************************************/
-void LCD_drawString(uint8_t x, uint8_t y, char* str, uint16_t fg, uint16_t bg)
-{
+void LCD_drawString(uint8_t x, uint8_t y, char* str, uint16_t fg, uint16_t bg) {
 	uint8_t start = x;
-    while (*str) {
-        if (*str == '\n') {
-            y += 8;
-            x = start;
-        } else if (*str == '\r') {
-            x = start;
-        } else {
-            LCD_drawChar(x, y, *str, fg, bg);
-            x += 5;
-        }
-        str++;
-    }
+	while (*str) {
+		switch (*str) {
+			case '\n':
+			y += 8;
+			x = start;
+			break;
+			case '\r':
+			x = start;
+			break;
+			default:
+			LCD_drawChar(x, y, *str, fg, bg);
+			x += 5;
+			break;
+		}
+		str++;
+	}
+}
+
+void display_three_digits(int number, uint8_t x, uint8_t y, uint16_t color, uint16_t bgColor) {
+	if (number < 0) number = 0;
+	if (number > 999) number = 999;
+
+	char digits[4];
+	digits[0] = (number / 100) % 10 + '0'; // Hundreds
+	digits[1] = (number / 10) % 10 + '0';  // Tens
+	digits[2] = number % 10 + '0';         // Units
+	digits[3] = '\0';                      // Null terminator
+
+	uint8_t width = 5 * 3;  // Each character 5 pixels wide, three characters total
+	uint8_t height = 8;     // Each character 8 pixels tall
+
+	LCD_setAddr(x, y, x + width, y + height);
+	clear(LCD_PORT, LCD_DC);
+	SPI_ControllerTx(ST7735_RAMWR);
+	set(LCD_PORT, LCD_DC);
+	clear(LCD_PORT, LCD_TFT_CS);
+
+	for (int i = 0; i < 3; i++) {
+		uint8_t index = digits[i] - '0';
+		index += 16;
+
+		for (int col = 0; col < 5; col++) {
+			uint8_t pixels = ASCII[index][col];
+			for (int row = 0; row < 8; row++) {
+				uint16_t pixelColor = (pixels & (1 << row)) ? color : bgColor;
+				SPI_ControllerTx_16bit_stream(pixelColor);
+			}
+		}
+	}
+
+	set(LCD_PORT, LCD_TFT_CS);
 }
