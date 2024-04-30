@@ -3,8 +3,8 @@
     * Team Name: Sid's Kids
     * Team Members: Rohan Panday and Owen Ledger
     * Github Repository URL: <https://github.com/ese3500/final-project-sid-s-kids>
-    * Github Pages Website URL: https://ese3500.github.io/final-project-sid-s-kids/
-    * Description of hardware: MacOS Sonoma, Macbook Pro with M1 Chip, Dell Inspiron with Intel I7 evo
+    * Github Pages Website URL: <https://ese3500.github.io/final-project-sid-s-kids/>
+    * Description of hardware: MacOS Sonoma, Macbook Pro with M1 Chip, Dell Inspiron with Intel I7 Evo
 
 ## Final Project Report
 
@@ -55,7 +55,7 @@ Above is the final product with a set of input wires and a set of output wires f
 
 ### 3. Results
 
-The problem specs, input and outputs for our project remained the same, however, the solution to our power management challenge shifted from an SCR based rectifier to a normal diode rectifier followed by a Cuk topology buck-boost converter. This setup had identical inputs and outputs to the original SCR design with slight tradeoffs. Instead of being able to output about -12V to 12V like the SCR device could, this topology could output 0 to 24V, shifting the range to reach higher output voltages but unable to support negative values. Even with this hardware change, the fundamental function of the embedded software aspect of the project is the same. A PID loop still controls the timing of the power converter, except instead of firing angle, the Atmega controls the duty cycle of the Cuk converter.
+The problem specs, input and outputs for our project remained the same, however, the solution to our power management challenge shifted from an SCR based rectifier to a normal diode rectifier followed by a Cuk topology buck-boost converter. This setup had identical inputs and outputs to the original SCR design with slight tradeoffs. Instead of being able to output about -12V to 12V like the SCR device could, this topology could output 0 to 30V, shifting the range to reach higher output voltages but unable to support negative values. Even with this hardware change, the fundamental function of the embedded software aspect of the project is the same. A PID loop still controls the timing of the power converter, except instead of firing angle, the Atmega controls the duty cycle of the Cuk converter.
 
 #### 3.1 Software Requirements Specification (SRS) Results
 
@@ -120,11 +120,34 @@ The hardware facilitates voltage measurement and PID control loop execution for 
 - **HRS 05**: Safety components such as fuses and diodes shall be incorporated to protect against electrical hazards.
   - We put in current limiting resistors, diodes, and other safety features whenever there is interaction between the ATMega and the power side.
 - **HRS 06**: The system can operate at output voltage values from 0 to -30V output and input voltage values from 0 to 10V. The system should be able to handle low loads (50ohms or lower).
-  - The input voltage range where the converter operated fully in its duty cycle was 2 to 6V, and was able to output -400 mV to -28V, which was our intended output range. This was for an input value of 4V, so the converter converted in the range of $\fract{1}{10}$ to 7 times Vin (magnitude). The lowest load where the converter worked as desired was 200ohms, but the converter still worked (with warped Vout/Vin characteristics) at low loads down to 50ohms.
+  - The input voltage range where the converter operated fully in its duty cycle was 2 to 6V, and was able to output -400 mV to -28V, which was our intended output range. This was for an input value of 4V, so the converter converted in the range of $\frac{1}{10}$ to 7 times Vin (magnitude). The lowest load where the converter worked as desired was 200ohms, but the converter still worked (with warped Vout/Vin characteristics) at low loads down to 50ohms.
 
 ### 4. Conclusion
 
 Reflect on your project. Some questions to consider: What did you learn from it? What went well? What accomplishments are you proud of? What did you learn/gain from this experience? Did you have to change your approach? What could have been done differently? Did you encounter obstacles that you didn’t anticipate? What could be a next step for this project?
+
+**What We Learned**
+Throughout this project, we deepened our understanding of power electronics, specifically in the design and control of AC-DC converters. The transition from theory to practical application revealed the complexities of these sytems, including the necessity of grounding, isolation, and factoring in non-ideal device behavior. We learned the importance of flexibility in engineering projects, as evidenced by our pivot from using SCRs to a full-bridge and Ćuk converter setup. This decision was crucial in addressing the practical limitations we faced with the initial SCR design, such as isolation issues and the high current requirement for multiple SCRs. Sometimes, these kinds of risks are important, and important when you are solving a complicated problem.
+
+**Successful Elements**
+One of the project's major successes was implementing the PID controller effectively to manage the converter's duty cycle. Tuning the PID parameters to minimize overshoot and ensure rapid settling times without compromising stability was particularly rewarding. Additionally, the final product achieved a good level of functionality, demonstrating robust voltage conversion capabilities across a range of input conditions and load requirements. The real-time voltage monitoring and PID adjustment capabilities of our system were crucial in achieving these results, reflecting our successful integration of software and hardware.
+
+**Challenges and Accomplishments**
+Adapting our approach mid-project due to the unforeseen technical challenges with the SCR-based design was a major obstacle. However, this also stands as a proud accomplishment. It highlights our problem-solving abilities and adaptability—key traits for any engineer. Despite these challenges, the project's successful completion and our ability to meet the specified hardware and software requirements are accomplishments that both of us are proud of.
+
+**Reflections on the Project Experience**
+This project was a comprehensive learning experience, enhancing not just our technical skills but also our project management and teamwork abilities. This process showed us the design process, from planning a project, designing the technical components, sourcing the components, implementing the hardware and software, integration, and most importantly, how different these steps are from theory to practice.
+
+**Potential Improvements**
+In retrospect, more extensive initial testing with the SCR components might have indicated potential problems earlier, potentially saving time and resources. Furthermore, integrating more sophisticated current handling capabilities might have allowed us to maintain our original SCR-based design. This could be an area for further development. In our final system, areas of improvement would be further PID tuning, as well as a more robust hardware setup that can meet a wider range of input and output voltages.
+
+**Unanticipated Obstacles**
+The isolation issues between the high-side AC and low-side DC were more challenging than anticipated, leading to a significant redesign of our system. The learning curve associated with implementing PID control was also steeper than expected, particularly in fine-tuning the derivative and integral components to match the dynamic characteristics of our converter.
+
+**Next Steps for the Project**
+Moving forward, enhancing the system's load handling capabilities could broaden its applicability, particularly for lighter loads. Furthermore, it would have been useful to try and graph or represent the various measured characteristics in a more engaging format using the LCD display. Further refinement of the PID tuning process through mathematical techniques (deriving the transfer functions of the different parts of the circuit and using the small signal model) could also enhance the system's performance under a wider range of operating conditions.
+
+Overall, this was a challenging project for both of us, but we both took a lot away from it. We learned about power electronics, embedded systems, devices, and project management, all in an exciting and challenging bundle.
 
 ## References
 
