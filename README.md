@@ -35,21 +35,21 @@ The final code we used can be seen in ESE3500_final_code_main.c for the PID code
 
 ### 1. Video
 
-![Video](Media/IMG_1557.MOV.mov)
+![Video](https://drive.google.com/file/d/1qOb2MtLLTKWmJ2VHRHLATtZXCcJGy-hs/view?usp=sharing)
 
 Above is a demonstration of the closed loop PID control of the rectifier to Cuk converter topology employed in this final project. An input voltage is varied while the duty cycle (pink) and output DC voltage (yellow) is monitored on an oscilloscope. The two primary functionalities of the device are represented in the following order. Firstly, the input voltage is held constant and the desired set-point of the output is varied by turning a potentiometer. In response, the device varies the duty cycle of the switching buck-boost converter to reach the desired set point. Given a maximum of a 2V shift at any time, the system will reach duty cycle equilibrium within one second. Further PID tuning can be employed in order to lower that time for a wider range of values. Note, the output voltage is measured as negative by the oscilloscope because it is measure relative to the internal ground of the system. The output of the system is actually flipped such that it outputs positive voltages. This does not pose a grounding issue because the input is an isolated AC input whose negative line is decoupled from the internal "world ground" of the system. The second functionality of the system is then shown. This demonstration changes the input voltage of the system to show that the system can accommodate by changing the duty cycle to reach the set point given that the input voltage is enough -- more than 1/4th the set point or less than 10x depending on if the system is boosting or bucking respectively. This performance mode also can manage a 2V shift in under 1 second, and this can be quickened by further PID tuning (i.e. cranking those numbers up). The following mode is not demonstrated in the video, but was tested rigorously after demo day. The device can support a load of minimum 200ohms. If the load is lower, the device will fall into discontinuous conduction mode which will change the conversion ratio of the converter. The PID would still be able to get in the vicinity, but the ratio that is used for math in the code will no longer apply, de-optimizing and falling out of spec that the device promises. Loads above 200ohms are viable, but it is important to ensure that the load can handle the expected current as the converter is not current limited. The above video was tested at 400ohms.
 
 ### 2. Images
 
-![Image](Media/IMG_4656.jpeg)
-![Image](Media/IMG_4657.jpeg)
-![Image](Media/IMG_4658.jpeg)
-![Image](Media/IMG_4659.jpeg)
-![Image](Media/IMG_4660.jpeg)
-![Image](Media/IMG_4661.jpeg)
-![Image](Media/IMG_4662.jpeg)
-![Image](Media/IMG_4663.jpeg)
-![Image](Media/IMG_4664.jpeg)
+![Image](IMG_4656.jpeg)
+![Image](IMG_4657.jpeg)
+![Image](IMG_4658.jpeg)
+![Image](IMG_4659.jpeg)
+![Image](IMG_4660.jpeg)
+![Image](IMG_4661.jpeg)
+![Image](IMG_4662.jpeg)
+![Image](IMG_4663.jpeg)
+![Image](IMG_4664.jpeg)
 
 Above is the final product with a set of input wires and a set of output wires for the AC input and DC output. There are two USB Type-A connectors to interface with the two atmegas contained within. There is a screen on one side showing the target voltage set by the adjacent potentiometer, the current voltage being outputted and the input voltage being read.
 
