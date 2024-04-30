@@ -59,8 +59,6 @@ The problem specs, input and outputs for our project remained the same, however,
 
 #### 3.1 Software Requirements Specification (SRS) Results
 
-Based on your quantified system performance, comment on how you achieved or fell short of your expected software requirements. You should be quantifying this, using measurement tools to collect data.
-
 #### 3.1.1 Overview
 
 The software is an integral part of a buck-boost system and manages the conversion process from 1 DC voltage to another by controlling the duty angle of MOSFET using a PID algorithm on an ATMega 328 PB microcontroller.
@@ -98,8 +96,6 @@ The software is designed for electrical engineers and technicians responsible fo
 
 #### 3.2 Hardware Requirements Specification (HRS) Results
 
-Based on your quantified system performance, comment on how you achieved or fell short of your expected hardware requirements. You should be quantifying this, using measurement tools to collect data.
-
 #### 3.2.1 Overview
 
 The hardware facilitates voltage measurement and PID control loop execution for a rectifier and buck-boost system, utilizing an ATMega 328 PB microcontroller as the core component.
@@ -131,10 +127,6 @@ The hardware facilitates voltage measurement and PID control loop execution for 
 Reflect on your project. Some questions to consider: What did you learn from it? What went well? What accomplishments are you proud of? What did you learn/gain from this experience? Did you have to change your approach? What could have been done differently? Did you encounter obstacles that you didn’t anticipate? What could be a next step for this project?
 
 ## References
-
-Fill in your references here as you work on your proposal and final submission. Describe any libraries used here.
-
------
 
 [1] L. Gu, Class Lecture, Topic: "Thyristors” ESE 5800, School of Engineering and Applied Sciences, University of Pennsylvania, Philadelphia, Pennsylvania, Feb., 7, 2024.
 
@@ -254,5 +246,3 @@ There are two primary metrics by which we can evaluate our project: a boolean on
 | Week 5: 4/22 - 4/26 |   Debugging. Polish and final testing       |         Both           |
 
 ### 12. Proposal Presentation
-
-Add your slides to the Final Project Proposal slide deck in the Google Drive.
