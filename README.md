@@ -4,13 +4,34 @@
     * Team Members: Rohan Panday and Owen Ledger
     * Github Repository URL: <https://github.com/ese3500/final-project-sid-s-kids>
     * Github Pages Website URL: https://ese3500.github.io/final-project-sid-s-kids/
-    * Description of hardware: (embedded hardware, laptop, etc): MacOS Sonoma, Macbook Pro with M1 Chip
-
+    * Description of hardware: (embedded hardware, laptop, etc): MacOS Sonoma, Macbook Pro with M1 Chip, Dell Inspring with Intel I7 evo
 
 ## Final Project Report
 
-Don't forget to make the GitHub pages public website!
-If you’ve never made a Github pages website before, you can follow this webpage (though, substitute your final project repository for the Github username one in the quickstart guide):  <https://docs.github.com/en/pages/quickstart>
+This page documents Owen and Rohan's journey through our ESE 3500 Project, and boy, was it a journey. If you look at the bottom of this page (where we highlighted the features and plan for our demo), you will see that the execution of this project was different. Regardless here is an overview of our final project, from the initial conception to the final implementation.
+
+When we began ideating final project topics, since we are both in ESE 5800 (Power Electronics), we decided to implement a power converter, using a microcontroller as the controller for the power converter. We decided to implement an AC-DC converter, whereby a user could plug in an AC source, set a target output DC voltage, and have the microcontroller calculate values and control the switches in the power converter.
+
+Our initial plan was to implement the AC-DC converter using Silicon Controlled Rectifiers to create a rectifier. This would allow the user to take in an AC voltage with amplitude Vin, and output any voltage within the range +Vin to -Vin. This rectifier has the following basic schematic, and requires two different firing angles to control the rectifiers:
+
+![SCR](SCR_Rectifier.jpg)
+
+Our components took almost two weeks to arrive, and so it took a while for us to test the SCRs using an ATMega. When we were able to do that, we realized a few key issues. Firstly, isolation between the high-side AC and low-side DC was quite challenging, especially as it pertained to applying a voltage accross the SCR to properly allow it to turn on. Secondly, SCRs are current controlled devices, and the current required to run more than 1 or 2 SCRs was beyond the capabilites of the ATMega. We tried to correct both of these issues with different types of isolation as well as a push-pull amplifier to increase the current, but the amount of hardware needed to get this system to work was exceedingly high, especially due to in-rush current requirements.
+
+As such, we decided to change the implementation of the AC-DC converter. We decided to instead implement the rectifier using a simple full-bridge rectifier, and then the output of the rectifier feeds into a Ćuk converter, which is a type of buck-boost converter. This allows, us to have similar functionality to what we wanted before (a range of output values). The only differences in this case are that we have inverted output voltages, and the output voltages can be both lower and higher than the input. The topologies used can be seen below:
+
+![full-bridge](full-bridge.jpg)
+![cuk](cuk.jpg)
+
+The full-bridge converter has a transfer function that maps an AC signal with an amplitude of Vin to $\frac{2 \cdot Vin}{\pi}$. The Ćuk converter has a transfer function of $\frac{Vout}{Vin} = \frac{D}{1-D}$.
+
+The control of this converter was done using the ATMega to vary D depending on the input voltage and the target output voltage. In particular, it does it using a PID controller. PID stands for Proportional-Integral-Derivative control, which means that we essentially use a running error function that is the sum of proportional, integral, and derivative terms. The 3 types of terms have the following affects on the different characteristics of the control variable:
+
+![PID](PID.jpg)
+
+In implementing our project, we found that proportional control did the majority of the heavy lifting in getting the duty cycle to the target value, and we tuned the Kp coefficient as needed. However, we were noticing some overshoot and slow settling time. As such, we decided to add a derivative term as well to make the transition faster. This change allowed us to meet our HRS goals easily, and in fact, we found through some tuning and experimentation that the integral term had little to no effect on the response, so for simplicity we made the value of the Ki coefficient 0.
+
+The final code we used can be seen in ESE3500_final_code_main.c for the PID code and the ESE3500_final_code_display.c for the LCD display.
 
 ### 1. Video
 
@@ -101,7 +122,9 @@ Fill in your references here as you work on your proposal and final submission. 
 
 [4] L. Gu, Class Lecture, Topic: "Switching Converters” ESE 5800, School of Engineering and Applied Sciences, University of Pennsylvania, Philadelphia, Pennsylvania, Feb., 7, 2024.
 
-## Final Project Proposal
+-----
+
+## Final Project Proposal (for MVP/Demo)
 
 ### 1. Abstract
 

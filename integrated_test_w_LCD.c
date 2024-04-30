@@ -27,7 +27,6 @@ volatile float frequencySum = 0;
 volatile int frequencyCount = 0;
 volatile float averageFrequency = 60;
 
-volatile float firing_angle_rad = PI/2;
 volatile int count = 0;
 
 volatile uint8_t zero_detected = 0;
