@@ -4,7 +4,7 @@
     * Team Members: Rohan Panday and Owen Ledger
     * Github Repository URL: <https://github.com/ese3500/final-project-sid-s-kids>
     * Github Pages Website URL: https://ese3500.github.io/final-project-sid-s-kids/
-    * Description of hardware: (embedded hardware, laptop, etc): MacOS Sonoma, Macbook Pro with M1 Chip, Dell Inspring with Intel I7 evo
+    * Description of hardware: MacOS Sonoma, Macbook Pro with M1 Chip, Dell Inspiron with Intel I7 evo
 
 ## Final Project Report
 
@@ -92,7 +92,9 @@ The software is designed for electrical engineers and technicians responsible fo
 - **SRS 05**: The software should allow dynamic adjustment of duty cycle for varying operating conditions.
   - The software takes in the input voltage, output voltage, and target from the user, adjusting the duty cycle to match the requirements based on these 3 parameters. Based on the the input and output requirements, we can reach duty cycles from 0.05 to 0.9. Due to the op amp circuit, we can read in input voltages in the range of 0 to 15 volts, read output voltages from 0 to -30 volts, and set targets from 0 to -30 volts. The code takes the scaled values from the ADCs and adjusts them for the PID controller.
 - **SRS 06**: The software must provide a mechanism for setting and tuning initial PID parameters.
+  - We implemented the PID controller as a struct in C, allowing us to set the Ki, Kp, Kd parameters in one line when the PID struct is initialized.
 - **SRS 07**: The software must include robust error handling capabilities.
+  - We implemented error handling in the PID control loop, mostly to ensure that the duty cycle doesn't go out of the safe limit (0.05 to 0.9). This is to protect the hardware. Furthermore, we averaged ADC readings to limit the effect of noise on the system.
 
 #### 3.2 Hardware Requirements Specification (HRS) Results
 
@@ -100,24 +102,29 @@ Based on your quantified system performance, comment on how you achieved or fell
 
 #### 3.2.1 Overview
 
-The hardware facilitates voltage measurement and PID control loop execution for a rectifier system, utilizing an ATMega 328 PB microcontroller as the core component.
+The hardware facilitates voltage measurement and PID control loop execution for a rectifier and buck-boost system, utilizing an ATMega 328 PB microcontroller as the core component.
 
 #### 3.2.2 Definitions, Abbreviations
 
 - **PID**: Proportional-Integral-Derivative
-- **SCR**: Silicon Controlled Rectifier
 - **ADC**: Analog to Digital Converter
 - **LCD**: Liquid Crystal Display
+- **Op-Amp**: Operational Amplifier
 
 #### 3.2.3 Functionality
 
 - **HRS 01**: An op-amp circuit shall be used to scale AC input voltages into the ADC's range.
-- **HRS 02**: The ATMega 328 PB microcontroller shall execute the PID control loop algorithm for adjusting SCR firing angles.
-- **HRS 03**: The microcontroller shall interface with voltage measurement sensors for real-time decision-making.
-- **HRS 04**: The microcontroller shall manage user inputs and display system parameters on an LCD panel.
-- **HRS 05**: The hardware shall send gate pulses to SCRs in a timely and rapid manner.
-- **HRS 06**: The system shall use an LCD display panel for showing system parameters and user interaction.
-- **HRS 07**: Safety components such as fuses and diodes shall be incorporated to protect against electrical hazards.
+  - Due to the op amp circuit, we can read in input voltages in the range of 0 to 15 volts, read output voltages from 0 to -30 volts, and set targets from 0 to -30 volts. The op amp circuit takes the scaled values from the ADCs and adjusts them for the 0 to 5 volt range of the ATMega.
+- **HRS 02**: The rectifying and filtering circuit should be able to rectify the signal and have less than 100 mV of voltage ripple at the output.
+  - Using very large capacitors and resistors (41mH inductors and 10mF capacitor) allowed us to filter the rectified signal such that the ripple was 53 mV peak to peak. This was a very flat DC voltage that would feed in perfectly into the buck-boost converter.
+- **HRS 03**: The microcontroller shall manage user inputs and display system parameters on an LCD panel.
+  - The ATMega has an LCD screen connected which displays values sampled at 125 kHz. The screen shows the input voltage, actual output voltage, and the target voltage set by the user.
+- **HRS 04**: The hardware shall send gate pulses to MOSFETS in a timely and rapid manner. The goal is to be able to run at frequencies greater than 10 kHz, keeping it in continuous conduction mode.
+  - The ATmega is able to send gate pulses to the MOSFET at 20 kHz, which given the inductor and capacitor values, keeps the converter in continuous conduction mode. Additionally, the error in the gate pulse widths is within 0.3% (as shown in the SRS).
+- **HRS 05**: Safety components such as fuses and diodes shall be incorporated to protect against electrical hazards.
+  - We put in current limiting resistors, diodes, and other safety features whenever there is interaction between the ATMega and the power side.
+- **HRS 06**: The system can operate at output voltage values from 0 to -30V output and input voltage values from 0 to 10V. The system should be able to handle low loads (50ohms or lower).
+  - The input voltage range where the converter operated fully in its duty cycle was 2 to 6V, and was able to output -400 mV to -28V, which was our intended output range. This was for an input value of 4V, so the converter converted in the range of $\fract{1}{10}$ to 7 times Vin (magnitude). The lowest load where the converter worked as desired was 200ohms, but the converter still worked (with warped Vout/Vin characteristics) at low loads down to 50ohms.
 
 ### 4. Conclusion
 

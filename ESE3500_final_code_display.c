@@ -1,3 +1,14 @@
+// With Professor McGill-Gardner's permission, I have commented this code using ChatGPT. The specific prompt used was:
+
+// "Please help me comment the following code for a pong game in C. 
+// Please be very careful not to change any of the code I have written at all (no optimizations, no fixes of any errors you may perceive, 
+// nothing of that sort). The structure of the comments should be as follows: before any method, 
+// an explanation of the overall purpose of the method should be given, plus an explanation of the arguments to the method 
+// (if there are any). Then, within a method, explain any blocks or lines that aren't directly clear in their purpose. 
+// If there is embedded C code setting pins, registers, or Atmega 328PB specific code, please do write next to these lines what 
+// the block is setting or why. Please do not over-comment the code, only comment what seems necessary for understanding the code or 
+// that helps with understanding. Here is the code:"
+
 #define F_CPU 16000000UL
 #include <avr/io.h>
 #include <avr/interrupt.h>
